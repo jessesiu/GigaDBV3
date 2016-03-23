@@ -1,0 +1,54 @@
+<%- if node[:gigadb][:server_names][0] == 'localhost' -%>
+<%- home_url = 'localhost:9170'-%>
+<%- else -%>
+<%- home_url = node[:gigadb][:server_names][0] -%>
+<%- end -%>
+
+<% server_email = node[:gigadb][:admin_email] -%>
+
+<?php
+
+return array(
+    'components' => array(
+        'mailchimp' => array(
+            'class'     => 'ext.mailchimp.EMailChimp2',
+            'apikey'    => 'a6f0c4189a9407a2758ad9f53f22dc67-us5',
+            'listId'    => '4be098275c',
+            'ecommerce360Enabled' => false,
+            'devMode'   => false
+        ),
+        'analytics' => array(
+            "class" => "Analytics",
+            "client_email" => "200888364373-k2h2ra90b7ou2rbqak3poau2f0k2mfrq@developer.gserviceaccount.com",
+            "client_id" => "200888364373-k2h2ra90b7ou2rbqak3poau2f0k2mfrq.apps.googleusercontent.com",
+            "keyfile" => realpath(dirname(__FILE__)."/../../files/certs/GigaDB-ffbe7d6b4aca.p12"),
+            "app_name" => "GigaDB",
+        ),
+    ),
+    'params'=>array(
+        'home_url' => 'http://<%= home_url %>', // Where top level link goes to
+
+        // Used in the contact page
+        'adminEmail'=> '<%= server_email %>',
+
+        // This is used as the sender of emails
+        'app_email_name' => 'Giga DB',
+        'app_email' => '<%= server_email %>',
+        'email_prefix' => '[Giga DB] ',
+
+        'support_email' => '<%= server_email %>',
+        'email_prefix' => '', // put at the begining of the subject line
+
+        // Notified when a new user signs up
+        'notify_email' => '<%= server_email %>',
+
+        // Cogini
+        'recaptcha_publickey' => '6LdkzgsAAAAAAGFJ5GdJyXf4JvFqKJe5N0-F3IRt',
+        'recaptcha_privatekey' => '6LdkzgsAAAAAAD6w-JyWXLfN1260aeRNl33I-JH9',
+        "google_analytics_profile" => "UA-7881029-2",
+
+        // Sphinx params
+        'sphinx_servername' => 'localhost',
+        'sphinx_port' => 9312,
+    ),
+);
